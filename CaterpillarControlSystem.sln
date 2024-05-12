@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatController", "CatControllSystem\CatController.csproj", "{859C5FD9-BA27-432C-B87E-BD6E6EEDB530}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{859C5FD9-BA27-432C-B87E-BD6E6EEDB530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{859C5FD9-BA27-432C-B87E-BD6E6EEDB530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{859C5FD9-BA27-432C-B87E-BD6E6EEDB530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{859C5FD9-BA27-432C-B87E-BD6E6EEDB530}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B51F1AB4-D4F5-424A-BF82-C8E0077AA8B7}
+	EndGlobalSection
+EndGlobal
