@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,6 +18,7 @@ namespace CatControllSystem
     {
         int U, D, L, R;
         double gridHeight, gridWidth;
+        List<Point> visited = new List<Point>();
         DispatcherTimer timer = new DispatcherTimer();
         string start = "S", spice = "$", booster = "B", obstacle = "#";
 
@@ -146,17 +148,18 @@ namespace CatControllSystem
                 {
                     Rect toColide = new Rect(Canvas.GetLeft(item), Canvas.GetTop(item), item.Width, item.Height);
 
-                    if (catHitBox.BottomLeft == toColide.BottomLeft)//Compare point position
+                    if (inSameSpot(catHitBox, toColide))//Compare point position
                     {
                         string currItem = item.Tag.ToString();
+                        Console.WriteLine($"colliion with {currItem}");
 
                         if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
                         {
-                            item.Background = Brushes.Green;
+                            item.Background = Brushes.Brown;
                         }
                         else if (currItem.Equals(booster, StringComparison.OrdinalIgnoreCase))
                         {
-                            item.Background = Brushes.Black;
+                            item.Background = Brushes.Brown;
                         }
                         else if (currItem.Equals(obstacle, StringComparison.OrdinalIgnoreCase))
                         {
@@ -176,6 +179,7 @@ namespace CatControllSystem
                                     break;
                             }
                         }
+                        item.Tag = visited;
                         break;
                     }
 
@@ -186,10 +190,15 @@ namespace CatControllSystem
             }
         }
 
+        private bool inSameSpot(Rect rect, Rect rect1)
+        {
+            return rect.BottomLeft == rect1.BottomLeft;
+        }
+
         private void LoadMap(out double gridHeight, out double gridWidth)
         {
             gridHeight = gridWidth = 0;
-            string mapDir = @"C:\\Users\\ALI\\source\\repos\\CaterpillarControlSystem\\CatControllSystem\\Maps\\Map.ini";
+            string mapDir = @".\\Maps\\Map.ini";
 
             if (!File.Exists(mapDir))
             {
@@ -237,6 +246,7 @@ namespace CatControllSystem
                             Height = gridHeight,
                             Width = gridWidth,
                             Tag = item,
+                            ShowGridLines = true,
                         };
                         grid.Children.Add(new Rectangle()
                         {
@@ -251,8 +261,7 @@ namespace CatControllSystem
                         {
                             Tag = item,
                             Text = item,
-                            //Height = gridHeight,
-                            //Width = gridWidth,
+                            Background = Brushes.Silver,
                             TextAlignment = TextAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
                             HorizontalAlignment = HorizontalAlignment.Center
