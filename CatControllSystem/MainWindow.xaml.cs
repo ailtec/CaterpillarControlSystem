@@ -150,17 +150,13 @@ namespace CatControllSystem
                     {
                         string currItem = item.Tag.ToString();
 
-                        if (currItem.Equals(start, StringComparison.OrdinalIgnoreCase))
+                        if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
                         {
-                            Console.WriteLine($"Hit   {currItem}");
-                        }
-                        else if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
-                        {
-                            Console.WriteLine($"Hit   {currItem}");
+                            item.Background = Brushes.Green;
                         }
                         else if (currItem.Equals(booster, StringComparison.OrdinalIgnoreCase))
                         {
-                            Console.WriteLine($"Hit   {currItem}");
+                            item.Background = Brushes.Black;
                         }
                         else if (currItem.Equals(obstacle, StringComparison.OrdinalIgnoreCase))
                         {
