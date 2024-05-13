@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Caterpillar Control System is a system that allows users to control the caterpillar by providing commands for movement, growth, and shrinking.
+This Caterpillar Control System is a system simulation that allows users to control the caterpillar by providing commands for movement, growth, and shrinking.
 
 ## Table of Contents
 
