@@ -15,7 +15,7 @@
 
             <Grid Name="Cat" Height="25" Width="25">
                 <Rectangle Width="25" Height="25" Fill="Red" />
-                <Label Content="H" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10"/>
+                <TextBlock Text="H" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
             <!--<Border Name="catBorder" BorderBrush="Black" BorderThickness="1" Height="160" Width="160" CornerRadius="100" Canvas.Left="109" Canvas.Top="210">
       <Label Name="Cat" Content="H" Height="25" Width="25"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -38,6 +38,6 @@
             <TextBox Name="inpRt"  Height="20" Width="20"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"></TextBox>
             <!--Start Button-->
             <Button Name="btnStart" Content="Start" Height="20" Width="70" Margin="15" Click="BtnStartRide"/>
-        </StackPanel>  
+        </StackPanel>
     </Grid>
 </Window>

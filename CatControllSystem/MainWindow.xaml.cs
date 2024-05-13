@@ -38,11 +38,15 @@ namespace CatControllSystem
 
             LoadMap(out gridHeight, out gridWidth);
 
-            Cat.Height = gridHeight; Cat.Width = gridWidth;
+            Cat.Height = gridHeight;
+            Cat.Width = gridWidth;
         }
 
         private void BtnStartRide(object sender, RoutedEventArgs e)
         {
+            btnStart.IsEnabled = false;
+            btnStart.Content = "Moving";
+
             #region validate inputs
             if (!int.TryParse(inpUp.Text, out U))
             {
@@ -85,7 +89,7 @@ namespace CatControllSystem
             #endregion
 
             #region Start timer 
-            timer.Interval = TimeSpan.FromSeconds(1); 
+            timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += appTimer;
             timer.Start();
             #endregion
@@ -104,6 +108,7 @@ namespace CatControllSystem
                 if (U > 0)//Move Up
                 {
                     Canvas.SetTop(Cat, Canvas.GetTop(Cat) - gridHeight);
+                    Colide(Direction.UP);
                     U--;
                     return;
                 }
@@ -120,51 +125,74 @@ namespace CatControllSystem
                     return;
                 }
                 if (R > 0)//Move right
-                { 
+                {
                     Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) + gridWidth);
                     R--;
                     return;
                 }
-
-                timer.Stop();
                 #endregion
 
+                timer.Stop();
+                btnStart.IsEnabled = true;
+                btnStart.Content = "Start";
             }
             catch (Exception)
             {
             }
         }
 
-        //private void Colide(string dir)
-        //{
-        //    var Rectangles = myCanvas.Children.OfType<Rectangle>().Where(x => x.Tag != null);
+        private void Colide(Direction dir)
+        {
+            try
+            {
+                switch (dir)
+                {
+                    case Direction.UP:
+                        break;
+                    case Direction.DOWN:
+                        break;
+                    case Direction.LEFT:
+                        break;
+                    case Direction.RIGHT:
+                        break;
+                }
 
-        //    foreach (var rec in Rectangles)
-        //    {
-        //        if (rec.Tag.Equals("obstacle"))
-        //        {
-        //            rec.Stroke = Brushes.Black;
-        //            Rect catHitBox = new Rect(Canvas.GetLeft(Cat), Canvas.GetTop(Cat), Cat.Width, Cat.Height);
-        //            Rect toColide = new Rect(Canvas.GetLeft(rec), Canvas.GetTop(rec), rec.Width, rec.Height);
+                IEnumerable<Grid> grids = myCanvas.Children.OfType<Grid>().Where(x => x.Tag != null);
 
-        //            if (catHitBox.IntersectsWith(toColide))
-        //            {
-        //                if (dir.Equals("x"))
-        //                {
-        //                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) - SpeedX);
-        //                    SpeedX = 0;
-        //                }
-        //                else
-        //                {
-        //                    Canvas.SetTop(Cat, Canvas.GetTop(Cat) + SpeedY);
-        //                    SpeedY = 0;
-        //                }
+                foreach (var grid in grids)
+                {
+                    Rect catHitBox = new Rect(Canvas.GetLeft(Cat), Canvas.GetTop(Cat), Cat.Width, Cat.Height);
+                    Rect toColide = new Rect(Canvas.GetLeft(grid), Canvas.GetTop(grid), grid.Width, grid.Height);
 
-        //            }
-        //        }
-        //    }
+                    if (catHitBox.IntersectsWith(toColide))
+                    {
+                        string currItem = grid.Tag.ToString();
+                        Console.WriteLine(currItem);
+                        if (currItem.Equals(start, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"Hit   {grid.Tag}");
+                        }
+                        else if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"Hit   {grid.Tag}");
+                        }
+                        else if (currItem.Equals(booster, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"Hit   {grid.Tag}");
+                        }
+                        else if (currItem.Equals(obstacle, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"Hit   {grid.Tag}");
+                        }
 
-        //}
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+        }
 
         private void LoadMap(out double gridHeight, out double gridWidth)
         {
@@ -174,6 +202,7 @@ namespace CatControllSystem
             if (!File.Exists(mapDir))
             {
                 Utils.MessageboxAlert($"Map file not found: {mapDir}");
+                Application.Current.Shutdown();
                 return;
             }
 
@@ -200,9 +229,9 @@ namespace CatControllSystem
             {
                 double x = 0;
 
-                for (int i = 0; i < line.Length; i++)//Cellss
+                for (int i = 0; i < line.Length; i++)//Cells
                 {
-                    string item = line[i].ToString();
+                    string item = line[i].ToString().Trim() ;
 
                     if (item.Equals(start, StringComparison.OrdinalIgnoreCase))
                     {
@@ -211,19 +240,32 @@ namespace CatControllSystem
                     }
                     else
                     {
-                        Label label = new Label
+                        Grid grid = new Grid()
                         {
+                            Height = gridHeight,
+                            Width = gridWidth,
                             Tag = item,
-                            FontSize = 10,
-                            Content = item,
-                            VerticalContentAlignment = VerticalAlignment.Center,
-                            HorizontalContentAlignment = HorizontalAlignment.Center,
                         };
+                        grid.Children.Add(new Rectangle()
+                        {
+                            Stroke = Brushes.Black,
+                            Height = gridHeight,
+                            Width = gridWidth,
+                            StrokeThickness = 0.1,
+                            Tag = item
+
+                        });
+                        grid.Children.Add(new TextBlock()
+                        {Tag=item,
+                            Text = item,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                        });
 
                         // Set   position 
-                        Canvas.SetLeft(label, x);
-                        Canvas.SetTop(label, y);
-                        myCanvas.Children.Add(label);
+                        Canvas.SetLeft(grid, x);
+                        Canvas.SetTop(grid, y);
+                        myCanvas.Children.Add(grid);
                     }
 
                     x += gridWidth;
@@ -231,6 +273,11 @@ namespace CatControllSystem
                 y += gridHeight;
 
             }
+        }
+
+        private enum Direction
+        {
+            UP, DOWN, LEFT, RIGHT
         }
     }
 }
