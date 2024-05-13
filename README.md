@@ -17,7 +17,7 @@ This Caterpillar Control System is a system simulation that allows users to cont
 ## Features
 
 - **Caterpillar Simulation:** Simulate the movement, growth, and shrinking of a caterpillar on wpf.
-- **Interactive  Interface:** .
+- **Interactive  Interface:** via WPF interface.
 - **Obstacles and Boosters:** Navigate through obstacles and collect boosters for caterpillar manipulation.
 - **Logging:** Log movements and errors.
 
@@ -44,8 +44,7 @@ This Caterpillar Control System is a system simulation that allows users to cont
 ## Usage
 
 1. Run the application as instructed in the installation section.
-2. Follow the on-screen instructions to provide commands for caterpillar movement, growth, and shrinking.
-3. View the console output to see the caterpillar's current state and radar image.
+2. Follow the on-screen instructions to provide commands for caterpillar movement, growth, and shrinking. 
 
 ## Command List
 
