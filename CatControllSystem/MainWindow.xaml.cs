@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,9 +17,8 @@ namespace CatControllSystem
     {
         int U, D, L, R;
         double gridHeight, gridWidth;
-        List<Point> visited = new List<Point>();
         DispatcherTimer timer = new DispatcherTimer();
-        string start = "S", spice = "$", booster = "B", obstacle = "#";
+        string start = "S", spice = "$", booster = "B", obstacle = "#", visited = "V";
 
         public MainWindow()
         {
@@ -100,14 +98,14 @@ namespace CatControllSystem
             try
             {
                 #region move caterpillar
-                if (U > 0)//Move Up
+                if (U > 0 && !Visited(Direction.UP))//Move Up
                 {
                     Canvas.SetTop(Cat, Canvas.GetTop(Cat) - gridHeight);
                     Colide(Direction.UP);
                     U--;
                     return;
                 }
-                if (D > 0)//Move down
+                if (D > 0 && !Visited(Direction.DOWN))//Move down
                 {
                     Canvas.SetTop(Cat, Canvas.GetTop(Cat) + gridHeight);
                     Colide(Direction.DOWN);
@@ -116,13 +114,15 @@ namespace CatControllSystem
                 }
                 if (L > 0)//Move left
                 {
-                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) - gridWidth); Colide(Direction.LEFT);
+                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) - gridWidth);
+                    Colide(Direction.LEFT);
                     L--;
                     return;
                 }
                 if (R > 0)//Move right
                 {
-                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) + gridWidth); Colide(Direction.RIGHT);
+                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) + gridWidth);
+                    Colide(Direction.RIGHT);
                     R--;
                     return;
                 }
@@ -136,7 +136,43 @@ namespace CatControllSystem
             {
             }
         }
+        private bool Visited(Direction dir)
+        {
+            try
+            {
+                IEnumerable<Grid> items = myCanvas.Children.OfType<Grid>().Where(x => x.Tag != null && x.Tag.Equals(visited));
+                Rect catHitBox = new Rect(Canvas.GetLeft(Cat), Canvas.GetTop(Cat), Cat.Width, Cat.Height);
 
+                foreach (var item in items)
+                {
+                    Rect toColide = new Rect(Canvas.GetLeft(item), Canvas.GetTop(item), item.Width, item.Height);
+
+                    if (inSameSpot(catHitBox, toColide))//Compare point position
+                    {
+                        switch (dir)
+                        {
+                            case Direction.UP:
+                                U = 0;
+                                break;
+                            case Direction.DOWN:
+                                D = 0;
+                                break;
+                            case Direction.LEFT:
+                                L = 0;
+                                break;
+                            case Direction.RIGHT:
+                                R = 0;
+                                break;
+                        }
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return false;
+        }
         private void Colide(Direction dir)
         {
             try
@@ -150,8 +186,7 @@ namespace CatControllSystem
 
                     if (inSameSpot(catHitBox, toColide))//Compare point position
                     {
-                        string currItem = item.Tag.ToString();
-                        Console.WriteLine($"colliion with {currItem}");
+                        string currItem = item.Tag.ToString(); 
 
                         if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
                         {
@@ -246,7 +281,6 @@ namespace CatControllSystem
                             Height = gridHeight,
                             Width = gridWidth,
                             Tag = item,
-                            ShowGridLines = true,
                         };
                         grid.Children.Add(new Rectangle()
                         {
@@ -261,7 +295,7 @@ namespace CatControllSystem
                         {
                             Tag = item,
                             Text = item,
-                            Background = Brushes.Silver,
+                            Foreground = Brushes.Black,
                             TextAlignment = TextAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
                             HorizontalAlignment = HorizontalAlignment.Center
