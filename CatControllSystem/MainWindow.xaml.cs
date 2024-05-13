@@ -98,33 +98,45 @@ namespace CatControllSystem
             try
             {
                 #region move caterpillar
-                if (U > 0 && !Visited(Direction.UP))//Move Up
+               // if (!Visited(Direction.UP))//Move Up
                 {
-                    Canvas.SetTop(Cat, Canvas.GetTop(Cat) - gridHeight);
-                    Colide(Direction.UP);
-                    U--;
-                    return;
+                    if (U > 0)
+                    {
+                        Canvas.SetTop(Cat, Canvas.GetTop(Cat) - gridHeight);
+                        Colide(Direction.UP);
+                        U--;
+                        return;
+                    }
                 }
-                if (D > 0 && !Visited(Direction.DOWN))//Move down
+               // if (!Visited(Direction.DOWN))//Move down
                 {
-                    Canvas.SetTop(Cat, Canvas.GetTop(Cat) + gridHeight);
-                    Colide(Direction.DOWN);
-                    D--;
-                    return;
+                    if (D > 0)
+                    {
+                        Canvas.SetTop(Cat, Canvas.GetTop(Cat) + gridHeight);
+                        Colide(Direction.DOWN);
+                        D--;
+                        return;
+                    }
                 }
-                if (L > 0)//Move left
+                // if (!Visited(Direction.LEFT))//Move left
                 {
-                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) - gridWidth);
-                    Colide(Direction.LEFT);
-                    L--;
-                    return;
+                    if (L > 0)
+                    {
+                        Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) - gridWidth);
+                        Colide(Direction.LEFT);
+                        L--;
+                        return;
+                    }
                 }
-                if (R > 0)//Move right
+               // if (!Visited(Direction.RIGHT))//Move right
                 {
-                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) + gridWidth);
-                    Colide(Direction.RIGHT);
-                    R--;
-                    return;
+                    if (R > 0)
+                    {
+                        Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) + gridWidth);
+                        Colide(Direction.RIGHT);
+                        R--;
+                        return;
+                    }
                 }
                 #endregion
 
@@ -141,30 +153,33 @@ namespace CatControllSystem
             try
             {
                 IEnumerable<Grid> items = myCanvas.Children.OfType<Grid>().Where(x => x.Tag != null && x.Tag.Equals(visited));
-                Rect catHitBox = new Rect(Canvas.GetLeft(Cat), Canvas.GetTop(Cat), Cat.Width, Cat.Height);
+                Rect nextCatPos = NextCatPos(dir);
 
                 foreach (var item in items)
                 {
                     Rect toColide = new Rect(Canvas.GetLeft(item), Canvas.GetTop(item), item.Width, item.Height);
 
-                    if (inSameSpot(catHitBox, toColide))//Compare point position
+                    switch (dir)
                     {
-                        switch (dir)
-                        {
-                            case Direction.UP:
-                                U = 0;
-                                break;
-                            case Direction.DOWN:
-                                D = 0;
-                                break;
-                            case Direction.LEFT:
-                                L = 0;
-                                break;
-                            case Direction.RIGHT:
-                                R = 0;
-                                break;
-                        }
-                        return true;
+                        case Direction.UP:
+
+                            if (toColide.Y > nextCatPos.Y && inSameSpot(nextCatPos, toColide))
+                            { U = 0; return true; }
+                            break;
+                        case Direction.DOWN:
+                            if (toColide.Y < nextCatPos.Y && inSameSpot(nextCatPos, toColide))
+                            { D = 0; return true; }
+                            break;
+                        case Direction.LEFT:
+                            if (toColide.X < nextCatPos.X && inSameSpot(nextCatPos, toColide))
+                            { L = 0; return true; }
+                            break;
+                        case Direction.RIGHT:
+                            if (toColide.X > nextCatPos.X && inSameSpot(nextCatPos, toColide))
+                            {
+                                R = 0; return true;
+                            }
+                            break;
                     }
                 }
             }
@@ -186,7 +201,8 @@ namespace CatControllSystem
 
                     if (inSameSpot(catHitBox, toColide))//Compare point position
                     {
-                        string currItem = item.Tag.ToString(); 
+                        item.Background = Brushes.Snow;
+                        string currItem = item.Tag.ToString();
 
                         if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
                         {
@@ -223,6 +239,27 @@ namespace CatControllSystem
             catch (Exception)
             {
             }
+        }
+
+        private Rect NextCatPos(Direction dir)
+        {
+            Rect nextCatPos = new Rect();
+            switch (dir)
+            {
+                case Direction.UP:
+                    nextCatPos = new Rect(Canvas.GetLeft(Cat), Canvas.GetTop(Cat) - gridHeight, Cat.Width, Cat.Height);
+                    break;
+                case Direction.DOWN:
+                    nextCatPos = new Rect(Canvas.GetLeft(Cat), Canvas.GetTop(Cat) + gridHeight, Cat.Width, Cat.Height);
+                    break;
+                case Direction.LEFT:
+                    nextCatPos = new Rect(Canvas.GetLeft(Cat) - gridWidth, Canvas.GetTop(Cat), Cat.Width, Cat.Height);
+                    break;
+                case Direction.RIGHT:
+                    nextCatPos = new Rect(Canvas.GetLeft(Cat) + gridWidth, Canvas.GetTop(Cat), Cat.Width, Cat.Height);
+                    break;
+            }
+            return nextCatPos;
         }
 
         private bool inSameSpot(Rect rect, Rect rect1)
