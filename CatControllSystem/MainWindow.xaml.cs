@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -231,7 +225,7 @@ namespace CatControllSystem
 
                 for (int i = 0; i < line.Length; i++)//Cells
                 {
-                    string item = line[i].ToString().Trim() ;
+                    string item = line[i].ToString().Trim();
 
                     if (item.Equals(start, StringComparison.OrdinalIgnoreCase))
                     {
@@ -256,7 +250,8 @@ namespace CatControllSystem
 
                         });
                         grid.Children.Add(new TextBlock()
-                        {Tag=item,
+                        {
+                            Tag = item,
                             Text = item,
                             VerticalAlignment = VerticalAlignment.Center,
                             HorizontalAlignment = HorizontalAlignment.Center,
