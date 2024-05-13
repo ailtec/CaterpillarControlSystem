@@ -108,18 +108,19 @@ namespace CatControllSystem
                 if (D > 0)//Move down
                 {
                     Canvas.SetTop(Cat, Canvas.GetTop(Cat) + gridHeight);
+                    Colide(Direction.DOWN);
                     D--;
                     return;
                 }
                 if (L > 0)//Move left
                 {
-                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) - gridWidth);
+                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) - gridWidth); Colide(Direction.LEFT);
                     L--;
                     return;
                 }
                 if (R > 0)//Move right
                 {
-                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) + gridWidth);
+                    Canvas.SetLeft(Cat, Canvas.GetLeft(Cat) + gridWidth); Colide(Direction.RIGHT);
                     R--;
                     return;
                 }
@@ -145,52 +146,48 @@ namespace CatControllSystem
                 {
                     Rect toColide = new Rect(Canvas.GetLeft(item), Canvas.GetTop(item), item.Width, item.Height);
 
-                    switch (dir)
+                    if (catHitBox.BottomLeft == toColide.BottomLeft)//Compare point position
                     {
-                        case Direction.UP:
+                        string currItem = item.Tag.ToString();
+
+                        if (currItem.Equals(start, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"Hit   {currItem}");
+                        }
+                        else if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"Hit   {currItem}");
+                        }
+                        else if (currItem.Equals(booster, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine($"Hit   {currItem}");
+                        }
+                        else if (currItem.Equals(obstacle, StringComparison.OrdinalIgnoreCase))
+                        {
+                            switch (dir)
                             {
-                                if (catHitBox.BottomLeft==  toColide.BottomLeft)//Compare point position
-                                {
-                                    Console.WriteLine("Colided");
-                                }
+                                case Direction.UP:
+                                    U = 0;
+                                    break;
+                                case Direction.DOWN:
+                                    D = 0;
+                                    break;
+                                case Direction.LEFT:
+                                    L = 0;
+                                    break;
+                                case Direction.RIGHT:
+                                    R = 0;
+                                    break;
                             }
-                            break;
-                        case Direction.DOWN:
-                            break;
-                        case Direction.LEFT:
-                            break;
-                        case Direction.RIGHT:
-                            break;
+                        }
+                        break;
                     }
 
-                    //if (catHitBox.Top.Equals(toColide))
-                    //{ 
-                    //    string currItem = item.Tag.ToString();
-
-                    //    if (currItem.Equals(start, StringComparison.OrdinalIgnoreCase))
-                    //    {
-                    //        Console.WriteLine($"Hit   {currItem}");
-                    //    }
-                    //    else if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
-                    //    {
-                    //        Console.WriteLine($"Hit   {currItem}");
-                    //    }
-                    //    else if (currItem.Equals(booster, StringComparison.OrdinalIgnoreCase))
-                    //    {
-                    //        Console.WriteLine($"Hit   {currItem}");
-                    //    }
-                    //    else if (currItem.Equals(obstacle, StringComparison.OrdinalIgnoreCase))
-                    //    {
-                    //        Console.WriteLine($"Hit   {currItem}");
-                    //    }
-
-                    //}
                 }
             }
             catch (Exception)
             {
             }
-
         }
 
         private void LoadMap(out double gridHeight, out double gridWidth)
@@ -258,8 +255,8 @@ namespace CatControllSystem
                         {
                             Tag = item,
                             Text = item,
-                            Height = gridHeight,
-                            Width = gridWidth,
+                            //Height = gridHeight,
+                            //Width = gridWidth,
                             TextAlignment = TextAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
                             HorizontalAlignment = HorizontalAlignment.Center
