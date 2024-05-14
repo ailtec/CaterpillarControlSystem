@@ -14,12 +14,9 @@
         <Canvas Name="myCanvas" Background="LightBlue" Focusable="True" Margin="0,0,0,50" Height="500" Width="800"    >
 
             <Grid Name="Cat" Height="25" Width="25" Background="PaleVioletRed">
-                <!--<Rectangle Width="25" Height="25" Fill="Red" />-->
+                <Rectangle Name="CatRec" Width="25" Height="25" Fill="Red" />
                 <TextBlock Text="H" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
-            <!--<Border Name="catBorder" BorderBrush="Black" BorderThickness="1" Height="160" Width="160" CornerRadius="100" Canvas.Left="109" Canvas.Top="210">
-      <Label Name="Cat" Content="H" Height="25" Width="25"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-  </Border>-->
         </Canvas>
 
         <!--Inputs Pannel-->

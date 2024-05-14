@@ -33,6 +33,11 @@ namespace CatControllSystem
 
             Cat.Height = gridHeight;
             Cat.Width = gridWidth;
+
+            CatRec.Height = gridHeight;
+            CatRec.Width = gridWidth;
+            CatRec.Stroke = Brushes.Black;
+            CatRec.StrokeThickness = 0.1;
         }
 
         private void BtnStartRide(object sender, RoutedEventArgs e)
@@ -98,7 +103,7 @@ namespace CatControllSystem
             try
             {
                 #region move caterpillar
-               // if (!Visited(Direction.UP))//Move Up
+                // if (!Visited(Direction.UP))//Move Up
                 {
                     if (U > 0)
                     {
@@ -108,7 +113,7 @@ namespace CatControllSystem
                         return;
                     }
                 }
-               // if (!Visited(Direction.DOWN))//Move down
+                // if (!Visited(Direction.DOWN))//Move down
                 {
                     if (D > 0)
                     {
@@ -128,7 +133,7 @@ namespace CatControllSystem
                         return;
                     }
                 }
-               // if (!Visited(Direction.RIGHT))//Move right
+                // if (!Visited(Direction.RIGHT))//Move right
                 {
                     if (R > 0)
                     {
@@ -200,7 +205,7 @@ namespace CatControllSystem
                     Rect toColide = new Rect(Canvas.GetLeft(item), Canvas.GetTop(item), item.Width, item.Height);
 
                     if (inSameSpot(catHitBox, toColide))//Compare point position
-                    {
+                    { 
                         item.Background = Brushes.Snow;
                         string currItem = item.Tag.ToString();
 
