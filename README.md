@@ -16,17 +16,17 @@ This Caterpillar Control System is a system simulation that allows users to cont
 
 ## Features
 
-- **Caterpillar Simulation:** Simulate the movement, growth, and shrinking of a caterpillar on a console-based grid.
-- **Interactive Console Interface:** Receive user commands through a console interface.
+- **Caterpillar Simulation:** Simulate the movement, growth, and shrinking of a caterpillar on wpf.
+- **Interactive  Interface:** via WPF interface.
 - **Obstacles and Boosters:** Navigate through obstacles and collect boosters for caterpillar manipulation.
-- **Logging:** Log movements, errors, and general actions to different log files.
+- **Logging:** Log movements and errors.
 
 ## Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Njuguna-JohnBrian/CaterpillarControlSystem
+   git clone https://github.com/ailtec/CaterpillarControlSystem.git
    ```
 
 2. Navigate to the project directory:
@@ -38,14 +38,13 @@ This Caterpillar Control System is a system simulation that allows users to cont
 3. Compile and run the application:
 
    ```bash
-   dotnet run --project CaterpillarControlSystem.control 
+   dotnet run  
    ```
 
 ## Usage
 
 1. Run the application as instructed in the installation section.
-2. Follow the on-screen instructions to provide commands for caterpillar movement, growth, and shrinking.
-3. View the console output to see the caterpillar's current state and radar image.
+2. Follow the on-screen instructions to provide commands for caterpillar movement, growth, and shrinking. 
 
 ## Command List
 
@@ -55,17 +54,6 @@ This Caterpillar Control System is a system simulation that allows users to cont
 - `R`: Move Right
 - `G`: Grow Caterpillar
 - `S`: Shrink Caterpillar 
-
-## Sample Movements
-
-Here is an example series of motions you can try:
-
-```bash
-U: Move Up
-D: Move Down
-L: Move Left
-R: Move Right 
-```
 
 ## License
 
