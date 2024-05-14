@@ -205,8 +205,7 @@ namespace CatControllSystem
                     Rect toColide = new Rect(Canvas.GetLeft(item), Canvas.GetTop(item), item.Width, item.Height);
 
                     if (inSameSpot(catHitBox, toColide))//Compare point position
-                    { 
-                        item.Background = Brushes.Snow;
+                    {  
                         string currItem = item.Tag.ToString();
 
                         if (currItem.Equals(spice, StringComparison.OrdinalIgnoreCase))
